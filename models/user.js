@@ -52,12 +52,20 @@ class User {
       }
     }
 
-  }
-
-
   /** Update last_login_at for user */
 
-  static async updateLoginTimestamp(username) { }
+  static async updateLoginTimestamp(username) {
+    const result = await db.query(
+      `UPDATE users
+        SET last_login-at = current_timestamp
+        WHERE username = $1
+        RETURN username, last_login_at`,
+        [username]);
+    if(!result.rows[0]) {
+      throw new ExpressError(`No such user: ${username}`, 404);
+    }
+    return result.rows[0];
+  }
 
   /** All: basic info on all users:
    * [{username, first_name, last_name, phone}, ...] */

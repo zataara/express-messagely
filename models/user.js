@@ -1,8 +1,8 @@
 /** User class for message.ly */
 
-const { DB_URI } = require("../config");
+const { BCRYPT_WORK_FACTOR } = require("../config");
 const bcrypt = require("bcrypt");
-const config = require("./config")
+const db = require("../db");
 
 
 

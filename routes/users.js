@@ -1,8 +1,15 @@
+const express = require("express");
+const { nextTick } = require("process");
+const router = express.Router();
+const db = require("../db");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 /** GET / - get list of users.
  *
  * => {users: [{username, first_name, last_name, phone}, ...]}
  *
  **/
+router.get('/')
 
 
 /** GET /:username - get detail of users.
@@ -32,3 +39,6 @@
  *                 to_user: {username, first_name, last_name, phone}}, ...]}
  *
  **/
+
+
+module.exports = router;

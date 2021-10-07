@@ -4,12 +4,21 @@ const router = express.Router();
 const db = require("../db");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { ensureLoggedIn } = require("../middleware/auth");
+
 /** GET / - get list of users.
  *
  * => {users: [{username, first_name, last_name, phone}, ...]}
  *
  **/
-router.get('/')
+router.get('/', ensureLoggedIn, async function(req, res, next) {
+    try{
+        const users = await User.all();
+        return res.json({users})
+    } catch(e) {
+        return next(e)
+    }
+})
 
 
 /** GET /:username - get detail of users.
@@ -17,7 +26,14 @@ router.get('/')
  * => {user: {username, first_name, last_name, phone, join_at, last_login_at}}
  *
  **/
-
+router.get('/:username', ensureLoggedIn, async function(req, res, next) {
+    try{
+        const user = await User.get(req.params.username);
+        return res.json({user})
+    } catch(e) {
+        return next(e)
+    }
+})
 
 /** GET /:username/to - get messages to user
  *

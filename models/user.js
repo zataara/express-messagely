@@ -28,7 +28,8 @@ class User {
         join_at,
         last_login_at
       )
-      VALUES ($1, $2, $3, $4, $5, current_timestamp, current_timestamp)`,
+      VALUES ($1, $2, $3, $4, $5, current_timestamp, current_timestamp)
+      RETURNING username, password, first_name, last_name, phone`,
       [username, hashedPassword, first_name, last_name, phone]
     );
     return result.rows[0];
@@ -40,7 +41,7 @@ class User {
     const result = await db.query(
       `SELECT password
       FROM users
-      WHERE user = $1`,
+      WHERE username = $1`,
       [username]
     )
     const user = result.rows[0];

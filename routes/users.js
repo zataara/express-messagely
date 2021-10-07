@@ -1,11 +1,8 @@
-const express = require("express");
-const { nextTick } = require("process");
-const router = express.Router();
-const db = require("../db");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-const { ensureLoggedIn } = require("../middleware/auth");
+const Router = require("express").Router;
+const User = require("../models/user");
+const { ensureLoggedIn, ensureCorrectUser} = require("../middleware/auth");
 
+const router = new Router();
 /** GET / - get list of users.
  *
  * => {users: [{username, first_name, last_name, phone}, ...]}
